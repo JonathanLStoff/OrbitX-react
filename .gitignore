@@ -136,3 +136,4 @@ dist
 .pnp.*
 *.mp4
 orbitbgr.gif
+.DS_Store
