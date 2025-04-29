@@ -1,0 +1,75 @@
+/* FeaturesList.css */
+
+.features-container {
+    /* Optional: Add some padding or margin around the list */
+    padding: 20px;
+    font-family: 'Arial', sans-serif; /* Use a modern, readable font */
+    color: #eee; /* Softer dark color instead of lightgray which might be hard to read */
+    line-height: 1.6; /* Improve readability */
+    text-align: left; /* Ensure text is left-aligned */
+  }
+  
+  .main-features-list {
+    list-style: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+  }
+  
+  .main-feature-item {
+    margin-bottom: 15px; /* Space out main list items */
+    font-size: 1.1rem; /* Slightly larger font for main points */
+    position: relative; /* Needed for custom bullet points */
+    padding-left: 20px; /* Space for custom bullet */
+  }
+  
+  /* Custom bullet point for main items */
+  .main-feature-item::before {
+    content: '-'; /* Use a simple dot or any character */
+    color: #98c1d9; /* A modern accent color */
+    position: absolute;
+    left: 0; /* Position bullet at the start of the padding */
+    top: 0;
+    font-weight: bold;
+  }
+  
+  
+  .sub-features-list {
+    list-style: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    margin-top: 10px; /* Space between main point and sublist */
+    margin-left: 20px; /* Indent the sublist */
+    border-left: 2px solid #777; /* Optional: A subtle visual separator */
+    padding-left: 15px; /* Space inside the border, before sub-item content */
+  }
+  
+  .sub-feature-item {
+    margin-bottom: 8px; /* Space out sublist items */
+    font-size: 1rem; /* Standard font size for sub points */
+    color: #eee; /* Slightly lighter color for sub points */
+    position: relative; /* Needed for custom bullet points */
+    padding-left: 15px; /* Space for custom bullet within the item */
+  }
+  
+  /* Custom bullet point for sub items */
+  .sub-feature-item::before {
+     /* Use a hyphen or any character */
+    color: #533a7b; /* A different accent color */
+    position: absolute;
+    left: 0; /* Position bullet at the start of the sub-item padding */
+    top: 0;
+    font-weight: bold;
+  }
+  
+  /* Adjust font size on smaller screens if needed */
+  @media (max-width: 600px) {
+    .features-container {
+      padding: 15px;
+    }
+    .main-feature-item {
+      font-size: 1rem;
+    }
+    .sub-feature-item {
+      font-size: 0.95rem;
+    }
+  }
+  
