@@ -158,8 +158,8 @@ function App() {
             Contact Us with Questions or Comments:
           </h2>
           <p style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
-            <a href="mailto:stoffaudio@gmail.com" style={{ color: '#fff', textDecoration: 'underline' }}>
-            stoffaudio@gmail.com
+            <a href="mailto:info.orbitx.app@gmail.com" style={{ color: '#fff', textDecoration: 'underline' }}>
+            info.orbitx.app@gmail.com
             </a>
           </p>
       
