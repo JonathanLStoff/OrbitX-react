@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.97134a9d.css",
-    "main.js": "/static/js/main.cf37bbd1.js",
-    "static/js/453.0933da31.chunk.js": "/static/js/453.0933da31.chunk.js",
-    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/index.html",
-    "main.97134a9d.css.map": "/static/css/main.97134a9d.css.map",
-    "main.cf37bbd1.js.map": "/static/js/main.cf37bbd1.js.map",
-    "453.0933da31.chunk.js.map": "/static/js/453.0933da31.chunk.js.map"
+    "main.css": "/www.orbit-x.app/static/css/main.97134a9d.css",
+    "main.js": "/www.orbit-x.app/static/js/main.0a72ac87.js",
+    "static/js/453.0933da31.chunk.js": "/www.orbit-x.app/static/js/453.0933da31.chunk.js",
+    "static/media/logo.svg": "/www.orbit-x.app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/www.orbit-x.app/index.html",
+    "main.97134a9d.css.map": "/www.orbit-x.app/static/css/main.97134a9d.css.map",
+    "main.0a72ac87.js.map": "/www.orbit-x.app/static/js/main.0a72ac87.js.map",
+    "453.0933da31.chunk.js.map": "/www.orbit-x.app/static/js/453.0933da31.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.97134a9d.css",
-    "static/js/main.cf37bbd1.js"
+    "static/js/main.0a72ac87.js"
   ]
 }
