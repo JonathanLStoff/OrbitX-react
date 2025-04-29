@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/OrbitX-React/static/css/main.97134a9d.css",
+    "main.js": "/OrbitX-React/static/js/main.785adab6.js",
+    "static/js/453.0933da31.chunk.js": "/OrbitX-React/static/js/453.0933da31.chunk.js",
+    "static/media/logo.svg": "/OrbitX-React/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/OrbitX-React/index.html",
+    "main.97134a9d.css.map": "/OrbitX-React/static/css/main.97134a9d.css.map",
+    "main.785adab6.js.map": "/OrbitX-React/static/js/main.785adab6.js.map",
+    "453.0933da31.chunk.js.map": "/OrbitX-React/static/js/453.0933da31.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97134a9d.css",
+    "static/js/main.785adab6.js"
+  ]
+}
