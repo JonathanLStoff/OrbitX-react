@@ -15,7 +15,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build --cname https://www.orbit-x.app/",
+    "deploy": "gh-pages -d build --cname www.orbit-x.app/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
