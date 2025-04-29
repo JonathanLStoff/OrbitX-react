@@ -78,7 +78,7 @@ function App() {
       {/* First Section */}
       <section style={{ ...sectionStyle, backgroundColor: '#000' }}>
         <img
-          src={"./orbitbgro.gif"}
+          src={'https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif'}
           alt="logo"
           style={{ ...backgroundStyle, filter: 'blur(20px)' }}
         />
