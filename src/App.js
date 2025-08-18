@@ -13,13 +13,14 @@ function App() {
     scrollSnapType: 'y mandatory',
     backgroundColor: '#000',
     overscrollBehaviorY: 'none',
+    scrollbarWidth: 'none', // Firefox
+    msOverflowStyle: 'none', // IE and Edge
   };
 
+  // Hide scrollbar for WebKit browsers (Chrome, Safari)
   const containerScrollbarStyle = `
-    &::-webkit-scrollbar { width: 8px; }
-    &::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-      border-radius: 4px;
+    &::-webkit-scrollbar { 
+      display: none; 
     }
   `;
 
@@ -27,7 +28,7 @@ function App() {
     position: 'relative',
     width: '100vw',
     height: '100vh',
-    overflow: 'hidden',
+    overflow: 'hidden', // Prevents scrollbars in sections
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -55,6 +56,7 @@ function App() {
     pointerEvents: 'none',
     background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%)',
   };
+
   const featuresData = [
     { text: 'Streamline your workflow with custom cue sheets' },
     { text: 'Control your production with a single click with custom midi cues' },
@@ -73,8 +75,10 @@ function App() {
       ],
     },
   ];
+
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className="container">
+      <style>{containerScrollbarStyle}</style>
       {/* First Section */}
       <section style={{ ...sectionStyle, backgroundColor: '#000' }}>
         <img
@@ -83,34 +87,39 @@ function App() {
           style={{ ...backgroundStyle, filter: 'blur(20px)' }}
         />
         <div style={overlayStyle} />
-
-        <div style={{
-          position: 'relative',
-          color: '#fff',
-          fontSize: '4rem',
-          fontWeight: 'bold',
-          textShadow: '0 0 10px rgba(0,0,0,0.7)',
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            color: '#fff',
+            fontSize: '4rem',
+            fontWeight: 'bold',
+            textShadow: '0 0 10px rgba(0,0,0,0.7)',
+          }}
+        >
           Orbit‑X:
           <br />
         </div>
-        <div style={{
-          position: 'relative',
-          color: '#fff',
-          fontSize: '2rem',
-          fontWeight: 'bold',
-          textShadow: '0 0 10px rgba(0,0,0,0.7)',
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            textShadow: '0 0 10px rgba(0,0,0,0.7)',
+          }}
+        >
           Orchestrating your production made easy
           <br />
         </div>
-        <div style={{
-          position: 'relative',
-          color: '#fff',
-          fontSize: '2rem',
-          fontStyle: 'italic',
-          textShadow: '0 0 10px rgba(0,0,0,0.7)',
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            color: '#fff',
+            fontSize: '2rem',
+            fontStyle: 'italic',
+            textShadow: '0 0 10px rgba(0,0,0,0.7)',
+          }}
+        >
           Coming in 2026
         </div>
       </section>
@@ -118,7 +127,7 @@ function App() {
       {/* Second Section */}
       <section style={{ ...sectionStyle, backgroundColor: '#121212', color: '#eee' }}>
         <img
-          src='./screencap.png'
+          src="./screencap.png"
           alt="second background"
           style={{ ...backgroundStyle, filter: 'blur(10px)' }}
         />
@@ -127,29 +136,30 @@ function App() {
             A revolutionary platform for production management
           </h2>
           <div className="features-container">
-      <ul className="main-features-list">
-        {featuresData.map((feature, index) => (
-          <li key={index} className="main-feature-item">
-            {feature.text}
-            {feature.subFeatures && (
-              <ul className="sub-features-list">
-                {feature.subFeatures.map((subFeature, subIndex) => (
-                  <li key={subIndex} className="sub-feature-item">
-                    {subFeature}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+            <ul className="main-features-list">
+              {featuresData.map((feature, index) => (
+                <li key={index} className="main-feature-item">
+                  {feature.text}
+                  {feature.subFeatures && (
+                    <ul className="sub-features-list">
+                      {feature.subFeatures.map((subFeature, subIndex) => (
+                        <li key={subIndex} className="sub-feature-item">
+                          {subFeature}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
-    {/* Third Section */}
-    <section style={{ ...sectionStyle, backgroundColor: '#121212', color: '#eee' }}>
+
+      {/* Third Section */}
+      <section style={{ ...sectionStyle, backgroundColor: '#121212', color: '#eee' }}>
         <img
-          src='./soundb.jpeg'
+          src="./soundb.jpeg"
           alt="third background"
           style={{ ...backgroundStyle, filter: 'blur(10px)' }}
         />
@@ -158,12 +168,13 @@ function App() {
             Contact Us with Questions or Comments:
           </h2>
           <p style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
-            <a href="mailto:info.orbitx.app@gmail.com" style={{ color: '#fff', textDecoration: 'underline' }}>
-            info.orbitx.app@gmail.com
+            <a
+              href="mailto:info.orbitx.app@gmail.com"
+              style={{ color: '#fff', textDecoration: 'underline' }}
+            >
+              info.orbitx.app@gmail.com
             </a>
           </p>
-      
-        
         </div>
       </section>
     </div>
