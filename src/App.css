@@ -136,6 +136,81 @@ body {
   text-align: center;
 }
 
+.feature-longform {
+  width: 100%;
+  margin-top: 22px;
+  text-align: left;
+  color: rgba(228, 246, 255, 0.92);
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-longform-heading {
+  margin: 0;
+  font-size: 1.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.feature-longform p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #DC2626; /* Red color for the long-form paragraphs as requested */
+}
+
+.feature-details {
+  width: 100%;
+  margin-top: 32px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature-details-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.feature-details-subtext {
+  margin: 0;
+  color: rgba(222, 236, 255, 0.85);
+  line-height: 1.6;
+}
+
+.feature-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.feature-detail-card {
+  background: rgba(12, 18, 34, 0.7);
+  border: 1px solid rgba(146, 235, 255, 0.18);
+  border-radius: 18px;
+  padding: 20px 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 36px rgba(5, 6, 14, 0.55);
+}
+
+.feature-detail-card h4 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f2f7ff;
+}
+
+.feature-detail-card p {
+  margin: 0;
+  color: rgba(225, 240, 255, 0.9);
+  line-height: 1.7;
+}
+
 .features-lede {
   margin: 0;
   font-size: 1.1rem;
@@ -165,7 +240,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 160px 24px 96px;
+  padding: 24px 24px 24px;
   gap: 48px;
   background: radial-gradient(circle at 20% 20%, rgba(103, 216, 255, 0.25), transparent 55%),
     radial-gradient(circle at 80% 0%, rgba(245, 144, 255, 0.18), transparent 60%),
@@ -317,10 +392,162 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 48px;
-  padding: 140px 24px 120px;
+  padding: 24px 24px 24px;
   background: radial-gradient(circle at 12% 8%, rgba(130, 242, 255, 0.18), transparent 50%),
     radial-gradient(circle at 88% 12%, rgba(216, 139, 255, 0.18), transparent 60%),
     #040404;
+}
+
+.roadmap-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 24px 24px 24px;
+  background: #000;
+  overflow: hidden;
+}
+
+.roadmap-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif');
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.roadmap-sheen {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.9) 100%);
+  z-index: 1;
+}
+
+.roadmap-content {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: #f8fbff;
+  text-align: left;
+  
+}
+
+.roadmap-content h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roadmap-content p {
+  margin: 0;
+  line-height: 1.2;
+  color: rgba(240, 247, 255, 0.92);
+  align-items: end;
+}
+
+.mermaid-chart {
+  margin: 12px 0 0;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(146, 235, 255, 0.35);
+  background: rgba(3, 7, 16, 0.85);
+  box-shadow: 0 18px 45px rgba(5, 10, 26, 0.65);
+  overflow: auto;
+  min-height: 220px;
+  line-height: 1.2;
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mermaid-chart svg {
+  width: 100%;
+  height: auto;
+  overflow: visible; /* allow labels and tails not to be clipped */
+}
+
+.mermaid-chart-loading,
+.mermaid-chart-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(207, 234, 255, 0.85);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Fix text clipping and ensure correct baseline alignment in Mermaid SVGs */
+.mermaid-chart svg text {
+  font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  line-height: 1.15;
+  dominant-baseline: middle; /* Keep labels vertically centered */
+  text-anchor: middle;
+}
+
+/* Make the node rectangles slightly taller so they won't clip content */
+.mermaid-chart svg .node rect {
+  rx: 10px;
+  ry: 10px;
+  /* Increase the rect height slightly via transform scaleY hack where available */
+}
+
+/* Make phase nodes 2x taller without scaling text (scale the rect only) */
+.mermaid-chart svg .phaseCard rect {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  /* Don’t scale the rect using transforms; we now post-process the SVG heights */
+  transform: none !important;
+}
+
+.mermaid-chart svg .phaseCard g[class*="label-container"],
+.mermaid-chart svg .phaseCard g[class*="label"]{
+  overflow: visible !important;
+}
+
+.mermaid-chart svg .phaseCard path {
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transform: none !important;
+}
+
+/* Ensure outer label containers used by mermaid and 'basic label-container outer-path' do not clip */
+.mermaid-chart svg g[class*="label-container"],
+.mermaid-chart svg g[class*="label"],
+.mermaid-chart svg .basic.label-container.outer-path {
+  overflow: visible !important;
+  clip-path: none !important;
+  mask: none !important;
+}
+
+/* Tighten line spacing inside HTML labels (foreignObject) */
+.mermaid-chart svg foreignObject div,
+.mermaid-chart svg foreignObject span {
+  line-height: 1.2 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mermaid-chart-error {
+  color: #ffc9c9;
+  border-color: rgba(255, 138, 138, 0.5);
+  box-shadow: 0 12px 34px rgba(255, 75, 75, 0.2);
+}
+
+.roadmap-note {
+  font-size: 0.95rem;
+  color: rgba(210, 230, 255, 0.85);
 }
 
 .media-intro {
@@ -444,7 +671,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 48px;
-  padding: 160px 24px 140px;
+  padding: 24px 24px 24px;
   background: radial-gradient(circle at 18% 12%, rgba(130, 242, 255, 0.2), transparent 52%),
     radial-gradient(circle at 82% 8%, rgba(216, 139, 255, 0.18), transparent 58%),
     #040404;

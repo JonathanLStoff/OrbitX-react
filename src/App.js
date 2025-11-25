@@ -1,6 +1,33 @@
 import './App.css';
 import React, { useEffect, useMemo, useState, useRef } from 'react';
+import mermaid from 'mermaid';
 import './FeaturesList.css';
+
+mermaid.initialize({
+  startOnLoad: false,
+  securityLevel: 'loose',
+  theme: 'dark',
+  fontFamily: '"Space Grotesk", "Inter", "Segoe UI", sans-serif',
+  themeVariables: {
+    primaryColor: '#07142b',
+    primaryBorderColor: '#8ec5ff',
+    primaryTextColor: '#f7fbff',
+    lineColor: '#5ad8ff',
+    secondaryColor: '#101a3a',
+    tertiaryColor: '#0f1c3c',
+    noteBkgColor: '#152445',
+    noteTextColor: '#e4f0ff',
+  },
+  flowchart: {
+    useMaxWidth: true,
+    htmlLabels: true,
+    padding: 16,
+    diagramPadding: 24,
+    nodeSpacing: 66,
+    rankSpacing: 48,
+    fontSize: '13px',
+  },
+});
 
 const downloadsData = [
   {
@@ -66,33 +93,280 @@ const mediaItems = [
   {
     id: 'live-playback',
     src: '/screencap.png',
-    alt: 'Orbit‑X live playback workspace',
+    alt: 'Orbit‑X live playback workspace showing synchronized audio, video, and projection cue list',
     caption: 'Live playback workspace with synchronized audio, video, and lighting cues.',
   },
   {
     id: 'cue-builder',
     src: '/screencap1.png',
-    alt: 'Orbit‑X cue builder interface',
+    alt: 'Orbit‑X cue builder interface layering lighting focus presets and MIDI triggers',
     caption: 'Build layered cue sequences with drag-and-drop precision and instant previews.',
   },
   {
     id: 'stage-atmosphere',
     src: '/orbitbg.gif',
-    alt: 'Orbit‑X stage visual atmosphere',
+    alt: 'Orbit‑X stage visual atmosphere with theatrical automation lighting looks',
     caption: 'Immersive stage looks rendered in real-time to match your show energy.',
   },
   {
     id: 'sound-craft',
     src: '/soundb.jpeg',
-    alt: 'Sound board connected to Orbit‑X',
+    alt: 'Sound board connected to Orbit‑X handling sound design cue list playback',
     caption: 'Orbit‑X working alongside FOH consoles for flawless sound transitions.',
   },
 ];
 
+const roadmapFlowChart = `
+flowchart TD
+  phase1([Phase 1 • Systems Foundation])
+  phase2([Phase 2 • Live Sync and Collaboration])
+  phase3([Phase 3 • Automation and Extensions])
+  release([Release])
+
+  phase1 -.-> p1_item1[Per-action visual customization: color and styling]
+  p1_item1 -.-> p1_item2[Integrated EQ and mixer]
+  p1_item2 -.-> p1_item3[Gain control automation]
+  p1_item3 -.-> p1_item4[File-based streaming]
+  p1_item4 -.-> p1_item5[Context menu — right-click actions]
+  p1_item5 -.-> p1_item6[Advanced focus settings]
+  p1_item6 -.-> p1_item7[Multi-selection and batch actions]
+  p1_item7 -.-> p1_item8[Built-in updater]
+
+  phase1 --> phase2
+  phase2 -.-> p2_item1[Custom MIDI signal routing]
+  p2_item1 -.-> p2_item2[VST and AU plugin hosting]
+  p2_item2 -.-> p2_item3[Video playback and timeline support]
+  p2_item3 -.-> p2_item4[DMX lighting control]
+  p2_item4 -.-> p2_item5[Image assets and projection support]
+  p2_item5 -.-> p2_item6[Group management for assets and actions]
+  p2_item6 -.-> p2_item7[Scheduled triggers and plugin framework]
+
+  phase2 --> phase3
+  phase3 -.-> p3_item1[Show Mode — focus and edit lock]
+  p3_item1 -.-> p3_item2[Custom thumbnails for media]
+  p3_item2 -.-> p3_item3[Integrated video and image editor]
+  p3_item3 -.-> p3_item4[DMX programming editor]
+
+  phase3 --> release
+  
+
+  class phase1,phase2,phase3 phaseCard;
+  class release releaseCard;
+  classDef phaseCard fill:#060c1f,stroke:#8C00FF,stroke-width:2px,color:#f7fbff;
+  classDef releaseCard fill:#1a0a0a,stroke:#DC2626,stroke-width:2px,color:#f7fbff;
+`;
+
 const NAV_HEIGHT = 96;
+
+function MermaidChart({ chart }) {
+  const [diagram, setDiagram] = useState('');
+  const [error, setError] = useState('');
+  const chartIdRef = useRef(`mermaid-${Math.random().toString(36).slice(2, 10)}`);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const renderDiagram = async () => {
+      try {
+        const { svg } = await mermaid.render(chartIdRef.current, chart);
+        if (isMounted) {
+          // Parse the SVG and increase the rect height for phase nodes to avoid label clipping
+          try {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(svg, 'image/svg+xml');
+            const phaseGroups = doc.querySelectorAll('g.phaseCard');
+            phaseGroups.forEach((g) => {
+              const rect = g.querySelector('rect');
+              if (rect) {
+                const origH = parseFloat(rect.getAttribute('height') || '0');
+                const origY = parseFloat(rect.getAttribute('y') || '0');
+                if (origH > 0) {
+                  const newH = Math.round(origH * 2);
+                  const newY = origY - (newH - origH) / 2;
+                  rect.setAttribute('height', String(newH));
+                  rect.setAttribute('y', String(newY));
+                }
+              }
+              // adjust other rects inside child label containers (sometimes separate in Mermaid output)
+              const labelContainers = g.querySelectorAll('[class*="label-container"] rect');
+              labelContainers.forEach((labelRect) => {
+                const origH2 = parseFloat(labelRect.getAttribute('height') || '0');
+                const origY2 = parseFloat(labelRect.getAttribute('y') || '0');
+                if (origH2 > 0) {
+                  const newH2 = Math.round(origH2 * 2);
+                  const newY2 = origY2 - (newH2 - origH2) / 2;
+                  labelRect.setAttribute('height', String(newH2));
+                  labelRect.setAttribute('y', String(newY2));
+                }
+              });
+              // adjust foreignObject heights when htmlLabels: true
+              const foreignObjects = g.querySelectorAll('foreignObject');
+              foreignObjects.forEach((fo) => {
+                const origHf = parseFloat(fo.getAttribute('height') || '0');
+                const origYf = parseFloat(fo.getAttribute('y') || '0');
+                if (origHf > 0) {
+                  const newHf = Math.round(origHf * 2);
+                  // center the foreignObject inside the rect rather than keep the negative y
+                  let bestY = origYf - (newHf - origHf) / 2;
+                  try {
+                    const rectYAttr = rect.getAttribute('y');
+                    const rectHAttr = rect.getAttribute('height');
+                    if (rectYAttr != null && rectHAttr != null) {
+                      const rectYVal = parseFloat(rectYAttr || '0');
+                      const rectHVal = parseFloat(rectHAttr || '0');
+                      const centeredY = rectYVal + (rectHVal - newHf) / 2;
+                      if (Number.isFinite(centeredY)) bestY = centeredY;
+                    }
+                  } catch (e) {
+                    // fallback to previous behavior
+                  }
+                  fo.setAttribute('height', String(newHf));
+                  fo.setAttribute('y', String(Math.round(bestY)));
+                }
+                // ensure inner HTML elements in foreignObject don't clip
+                try {
+                  const inner = fo.querySelector('div, span');
+                  if (inner) {
+                    // Use flexbox so inner paragraphs are centered vertically/horizontally
+                    inner.style.display = 'flex';
+                    inner.style.flexDirection = 'column';
+                    inner.style.justifyContent = 'center';
+                    inner.style.alignItems = 'center';
+                    inner.style.whiteSpace = 'pre-wrap';
+                    inner.style.overflow = 'visible';
+                    inner.style.lineHeight = '1.15em';
+                    inner.style.padding = '6px 8px 4px 8px';
+                    inner.style.margin = '0';
+                    // remove default p margins inside label HTML which push content vertically
+                    const p = inner.querySelector('p');
+                    if (p) p.style.margin = '0';
+                    // also ensure span elements don't add extra top/bottom margins
+                    const spans = inner.querySelectorAll('span, .nodeLabel');
+                    spans.forEach((s) => { s.style.margin = '0'; s.style.padding = '0'; });
+                  }
+                } catch (e) {
+                  // ignore if cross-origin or parsing fails
+                }
+              });
+              // ensure label containers are visible (no clipping)
+              const labelGroups = g.querySelectorAll('g[class*="label-container"], g[class*="label"]');
+              labelGroups.forEach((lg) => {
+                // remove overflow clipping if present
+                lg.removeAttribute('clip-path');
+                lg.setAttribute('overflow', 'visible');
+                // Normalize translate Y component to 0 so labels are not shifted vertically
+                try {
+                  const tf = lg.getAttribute('transform') || '';
+                  if (tf && tf.indexOf('translate(') >= 0) {
+                    const newTf = tf.replace(/translate\(\s*([-\d.]+)[\s,]+([-\d.]+)\s*\)/, 'translate($1, 0)');
+                    lg.setAttribute('transform', newTf);
+                  }
+                } catch (e) {
+                  // ignore
+                }
+              });
+              // remove clip paths or mask references at group level to avoid label clipping
+              const clipChildren = g.querySelectorAll('[clip-path], [mask]');
+              clipChildren.forEach((el) => {
+                el.removeAttribute('clip-path');
+                el.removeAttribute('mask');
+              });
+            });
+
+            const serializer = new XMLSerializer();
+            const fixedSvg = serializer.serializeToString(doc);
+            setDiagram(fixedSvg);
+          } catch (errInner) {
+            // If altering the svg fails, fall back to the original svg string
+            // eslint-disable-next-line no-console
+            console.warn('SVG post-processing failed', errInner);
+            setDiagram(svg);
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError('Unable to render the roadmap chart right now.');
+        }
+        // eslint-disable-next-line no-console
+        console.error('Mermaid render error', err);
+      }
+    };
+
+    renderDiagram();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [chart]);
+
+  // Rely on Mermaid's own HTML layout for text positioning inside phase nodes
+  useEffect(() => {
+    // Intentionally left blank: we no longer adjust label positions here.
+  }, [diagram]);
+
+  if (error) {
+    return <div className="mermaid-chart mermaid-chart-error" ref={containerRef}>{error}</div>;
+  }
+
+  if (!diagram) {
+    return <div className="mermaid-chart mermaid-chart-loading" ref={containerRef}>Rendering flow chart…</div>;
+  }
+
+  return <div ref={containerRef} className="mermaid-chart" dangerouslySetInnerHTML={{ __html: diagram }} />;
+}
 
 function App() {
   const [activeTab, setActiveTab] = useState('overview');
+  // Ensure reload/page show resets to top so the roadmap and other tabs don't persist scroll
+  useEffect(() => {
+    // prefer manual so the browser doesn't re-use previous scroll positions
+    const prev = (window.history && window.history.scrollRestoration) || 'auto';
+    try {
+      if (window.history && 'scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    } catch (e) {
+      // ignore
+    }
+
+    // On pageshow or load, reset scroll to top
+    const onShow = () => {
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    window.addEventListener('pageshow', onShow);
+    // fallback if pageshow not available
+    window.addEventListener('load', onShow);
+
+    // Also ensure scroll reset when the app mounts (for dev HMR or client-side reloads)
+    onShow();
+
+    return () => {
+      try {
+        if (window.history && 'scrollRestoration' in window.history) window.history.scrollRestoration = prev;
+      } catch (e) {
+        // ignore
+      }
+      window.removeEventListener('pageshow', onShow);
+      window.removeEventListener('load', onShow);
+    };
+  }, []);
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+    try {
+      // scroll to top of page (both body and documentElement supports)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    } catch (e) {
+      // ignore
+    }
+  };
 
   useEffect(() => {
     document.body.style.backgroundColor = activeTab === 'overview' ? '#000' : '#050505';
@@ -104,7 +378,7 @@ function App() {
   const containerStyle = useMemo(
     () => ({
       backgroundColor: '#000',
-      paddingTop: `${NAV_HEIGHT}px`,
+      paddingTop: `${NAV_HEIGHT/2}px`,
     }),
     []
   );
@@ -177,6 +451,39 @@ function App() {
     },
   ];
 
+  const featureHighlights = [
+    {
+      id: 'cue-engine',
+      title: 'Integrated Cue Engine for Audio, Video, and Projection',
+      description:
+        'Build a sound design cue list that links audio stems, timecode-synced video, and projection looks in a single timeline. Orbit-X keeps fades, visual transitions, and safety pauses in sync so stage managers can call the show with confidence.',
+    },
+    {
+      id: 'midi-show-control',
+      title: 'MIDI Show Control & Theatrical Automation',
+      description:
+        'Route MIDI show control messages, OSC cues, and automation triggers to motion rigs and lighting consoles without writing custom scripts. Orbit-X acts as the theatrical automation software layer that keeps rigging, lifts, and effects aligned with spoken dialogue and musical beats.',
+    },
+    {
+      id: 'mac-alternative',
+      title: 'Mac & Windows Friendly Show Control Alternative',
+      description:
+        'Whether you need a Mac show control alternative or a Windows workstation, Orbit-X ships with optimized builds for both Apple Silicon and Intel hardware. Designers can install it on rehearsal laptops, redundancy machines, or traveling flypacks with identical performance.',
+    },
+    {
+      id: 'touring-resilience',
+      title: 'Touring-Grade Reliability for Live Production Tools',
+      description:
+        'Redundant cue stacks, checksum-protected media, and offline editing mean productions keep rolling even when the network hiccups. Touring programmers can rehearse scenes on the bus, then push updates that remain perfectly in sync once the rig powers up.',
+    },
+    {
+      id: 'creative-workbench',
+      title: 'Creative Workbench with Extensible Plugins',
+      description:
+        'Extend Orbit-X with custom plugins that talk to DMX gateways, laser controllers, or immersive audio processors. Designers can sketch new workflows, expose them to assistants, and version-control cues just like code—so experimentation never blocks a live cueing session.',
+    },
+  ];
+
   const currentYear = new Date().getFullYear();
   const promoVideoRef = useRef(null);
 
@@ -187,15 +494,13 @@ function App() {
           {/* First Section */}
           <section style={{ ...heroSectionStyle, backgroundColor: '#000' }}>
             <img
-              src={
-                'https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif'
-              }
-              alt="Orbit-X animated background"
+              src={'https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif'}
+              alt="Orbit-X animated galaxy-style background representing live production data"
               style={{ ...backgroundStyle, filter: 'blur(20px)' }}
             />
             <div style={overlayStyle} />
-            <div className="hero-headline">Orbit‑X</div>
-            <div className="hero-subline">Orchestrating your production made easy</div>
+            <h1 className="hero-headline">Orbit‑X</h1>
+            <h2 className="hero-subline">Orchestrating your production made easy</h2>
             <div className="hero-meta">Coming in 2026</div>
           </section>
 
@@ -210,14 +515,14 @@ function App() {
           >
             <img
               src="/screencap.png"
-              alt="Orbit-X interface preview"
+              alt="Orbit-X dark mode interface preview with lighting, sound, and video cue sheets"
               style={{ ...backgroundStyle, filter: 'blur(10px)' }}
             />
             <div className="features-showcase">
               <h2 className="section-title">A revolutionary platform for production management</h2>
               <p className="features-lede">
                 Orbit‑X keeps every department in sync—so your lighting, sound, video, and automation teams
-                deliver one polished performance after another.
+                deliver one polished performance after another with the precision of a fully-orchestrated cueing system.
               </p>
               <div className="features-container features-centered">
                 <ul className="main-features-list">
@@ -237,6 +542,54 @@ function App() {
                   ))}
                 </ul>
               </div>
+              <div className="feature-details">
+                <h3 className="feature-details-heading">Detailed features for production leads</h3>
+                <p className="feature-details-subtext">
+                  Google, stage managers, and prospective partners can now understand how Orbit‑X handles MIDI show control, theatrical automation software workflows, and live production tools in depth.
+                </p>
+                <div className="feature-detail-grid">
+                  {featureHighlights.map((highlight) => (
+                    <article key={highlight.id} className="feature-detail-card">
+                      <h4>{highlight.title}</h4>
+                      <p>{highlight.description}</p>
+                    </article>
+                  ))}
+                </div>
+                <div className="feature-longform">
+                  <h3 className="feature-longform-heading">How Orbit‑X orchestrates modern shows</h3>
+                  <p>
+                    Orbit‑X is a unified show control platform designed to consolidate lighting, sound, video, and
+                    automation into a single coordinated environment. As a theater‑grade cue engine, it enables
+                    programmers to build deterministic cue sequences that tie audio stems to timecode-synchronized
+                    video and projection cues while maintaining consistent fade curves and fail-safes for live
+                    performance. This streamlined approach reduces the cognitive load on operators and allows
+                    production teams to iterate quickly during rehearsals without risking out-of-sync transitions.
+                  </p>
+                  <p>
+                    MIDI Show Control (MSC) and OSC are first-class citizens in Orbit‑X. From complex cueing chains
+                    that trigger motion rigs and projection displays to simple MIDI note events that launch backup
+                    audio, Orbit‑X can act as a central routing and timing layer for distributed show hardware. This
+                    is particularly useful for touring productions and school theaters where technical setups can vary
+                    but the show needs to behave the same across venues.
+                  </p>
+                  <p>
+                    For designers and sound engineers who require precision, Orbit‑X supports redundancy, versioned
+                    cue stacks, and strong error handling for media playback. The platform supports platform‑specific
+                    binaries for Apple Silicon, Intel Macs, and Windows, offering a Mac‑friendly show control
+                    alternative while also keeping the system familiar for engineers who prefer Windows-based
+                    production setups. Extensible plugins allow integration with DMX gateways, custom hardware, and
+                    third-party DSPs, which means creative workflows no longer require low-level scripting to run
+                    reliably during a show.
+                  </p>
+                  <p>
+                    From a workflow perspective, Orbit‑X is built for live performance scenarios where safety, timing,
+                    and repeatability are crucial. Its cue groups, safety checks, and step-through tools are
+                    designed for stage managers and technical directors who need predictable, traceable show
+                    execution during live events. Educators and theaters can adopt Orbit‑X as a teaching tool for
+                    cueing best practices that bridge the gap between artistic intention and technical execution.
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -244,7 +597,7 @@ function App() {
           <section style={{ ...sectionStyle, backgroundColor: '#121212', color: '#eee' }}>
             <img
               src="/soundb.jpeg"
-              alt="Sound board background"
+              alt="Close-up of a sound board background with Orbit-X controlling FOH transitions"
               style={{ ...backgroundStyle, filter: 'blur(10px)' }}
             />
             <div style={{ position: 'relative', zIndex: 2 }}>
@@ -344,6 +697,27 @@ function App() {
       );
     }
 
+    if (activeTab === 'roadmap') {
+      return (
+        <section className="roadmap-section">
+          <div className="roadmap-sheen" aria-hidden="true" />
+          <div className="roadmap-content">
+            <span className="eyebrow">Roadmap</span>
+            <h1>Orbit‑X release map</h1>
+            <p>
+              A quick glance at upcoming feature flights, integrations, and creative experiments. Treat these nodes as
+              placeholders—swap in real milestones whenever priorities shift.
+            </p>
+            <MermaidChart chart={roadmapFlowChart} />
+            <p className="roadmap-note">
+              Update this Mermaid flow chart anytime your backlog changes—the nodes support decisions, iterations, and
+              launch gates so you can represent true production flow.
+            </p>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="media-section">
         <div className="media-intro">
@@ -438,28 +812,35 @@ function App() {
         <nav className="nav-tabs">
           <button
             className={`nav-tab ${activeTab === 'overview' ? 'nav-tab-active' : ''}`}
-            onClick={() => setActiveTab('overview')}
+            onClick={() => changeTab('overview')}
             type="button"
           >
             Overview
           </button>
           <button
             className={`nav-tab ${activeTab === 'downloads' ? 'nav-tab-active' : ''}`}
-            onClick={() => setActiveTab('downloads')}
+            onClick={() => changeTab('downloads')}
             type="button"
           >
             Downloads
           </button>
           <button
             className={`nav-tab ${activeTab === 'media' ? 'nav-tab-active' : ''}`}
-            onClick={() => setActiveTab('media')}
+            onClick={() => changeTab('media')}
             type="button"
           >
             Media
           </button>
           <button
+            className={`nav-tab ${activeTab === 'roadmap' ? 'nav-tab-active' : ''}`}
+            onClick={() => changeTab('roadmap')}
+            type="button"
+          >
+            Roadmap
+          </button>
+          <button
             className={`nav-tab ${activeTab === 'contact' ? 'nav-tab-active' : ''}`}
-            onClick={() => setActiveTab('contact')}
+            onClick={() => changeTab('contact')}
             type="button"
           >
             Contact
