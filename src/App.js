@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import './FeaturesList.css';
 
 const downloadsData = [
@@ -178,6 +178,7 @@ function App() {
   ];
 
   const currentYear = new Date().getFullYear();
+  const promoVideoRef = useRef(null);
 
   const renderContent = () => {
     if (activeTab === 'overview') {
@@ -306,13 +307,13 @@ function App() {
           </div>
           <div className="contact-grid">
             <div className="contact-card">
-              <h2>Drop us a line</h2>
+              <h2>Let me know</h2>
               <p>
                 <a className="contact-link" href="mailto:info@orbit-x.app">
                   info@orbit-x.app
                 </a>
               </p>
-              <p>Dedicated support for stage managers, designers, educators, and touring companies.</p>
+              <p>Dedicated support for stage managers, designers, educators, and touring companies. We also take all sorts of feedback on the function and direction of features!</p>
             </div>
             <div className="contact-card">
               <h2>Follow the journey</h2>
@@ -352,6 +353,66 @@ function App() {
             Explore production stills and motion captures that highlight how Orbit‑X supports directors,
             stage managers, and designers during every step of the show.
           </p>
+        </div>
+        <div className="promo-wrapper">
+          <video
+            ref={promoVideoRef}
+            className="promo-video"
+            playsInline
+            muted
+            autoPlay
+            // No controls to prevent time timeline display, user can fullscreen with button
+            controls={false}
+            // We'll implement custom loop control so it restarts at 60s instead of 0
+            onLoadedMetadata={(e) => {
+              const video = e.currentTarget;
+              try {
+                if (video.duration > 60) {
+                  video.currentTime = 60;
+                  // Attempt to play after seeking
+                  video.play().catch(() => {});
+                }
+              } catch (err) {
+                // ignore
+              }
+            }}
+            onEnded={(e) => {
+              const video = e.currentTarget;
+              try {
+                video.currentTime = 60;
+                video.play().catch(() => {});
+              } catch (err) {
+                // ignore
+              }
+            }}
+            aria-label="Orbit-X promo video"
+            loop={false}
+          >
+            <source
+              src="https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/promo0.0.13a.mov"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <button
+            className="promo-fullscreen-btn"
+            onClick={() => {
+              const vid = promoVideoRef.current;
+              if (!vid) return;
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              } else if (vid.requestFullscreen) {
+                vid.requestFullscreen().catch(() => {});
+              } else if (vid.webkitRequestFullscreen) {
+                // Safari
+                vid.webkitRequestFullscreen();
+              }
+            }}
+            type="button"
+            aria-label="Full screen video"
+          >
+            Full screen
+          </button>
         </div>
         <div className="media-grid">
           {mediaItems.map((item) => (
