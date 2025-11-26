@@ -104,7 +104,7 @@ const mediaItems = [
   },
   {
     id: 'stage-atmosphere',
-    src: '/orbitbg.gif',
+    src: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/orbitbg.gif',
     alt: 'Orbit‑X stage visual atmosphere with theatrical automation lighting looks',
     caption: 'Immersive stage looks rendered in real-time to match your show energy.',
   },
@@ -494,7 +494,7 @@ function App() {
           {/* First Section */}
           <section style={{ ...heroSectionStyle, backgroundColor: '#000' }}>
             <img
-              src={'https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif'}
+              src={'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/orbitbgro.gif'}
               alt="Orbit-X animated galaxy-style background representing live production data"
               style={{ ...backgroundStyle, filter: 'blur(20px)' }}
             />

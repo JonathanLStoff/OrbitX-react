@@ -412,7 +412,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('https://i.postimg.cc/Z5jxmf2m/orbitbgro.gif');
+  background-image: url('https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/orbitbgro.gif');
   background-size: cover;
   background-position: center;
   filter: blur(20px);
