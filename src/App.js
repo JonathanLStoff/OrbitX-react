@@ -700,6 +700,17 @@ function App() {
                 Behind-the-scenes looks at how Orbit‑X powers rehearsal rooms, cue stacks, and touring rigs.
               </p>
             </div>
+            <div className="contact-card meet-dev-card">
+              <h2>Meet the dev</h2>
+              <p>
+                Orbit‑X is owned by StoffAudio, the one-person studio founded by Jonathan Stoff. Every release is
+                hand-built, tested, and supported directly by the same developer who runs the company.
+              </p>
+              <p>
+                Want to chat about features or partnerships? Reach out via email or socials and you&rsquo;ll be speaking with
+                Jonathan himself.
+              </p>
+            </div>
           </div>
         </section>
       );
@@ -853,12 +864,20 @@ function App() {
           >
             Contact
           </button>
+          <a
+            className="nav-tab nav-tab-donate"
+            href="https://www.paypal.com/donate/?hosted_button_id=XEAKWNJ9ST2NW"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Donate
+          </a>
         </nav>
       </header>
       {renderContent()}
       <footer className="site-footer">
         <div className="footer-content">
-          <span>© {currentYear} Orbit‑X. All rights reserved.</span>
+          <span>© {currentYear} Orbit‑X. Owned by StoffAudio. All rights reserved.</span>
           <div className="footer-links">
             <a href="mailto:info@orbit-x.app">info@orbit-x.app</a>
             <a href="https://www.instagram.com/orbitx_app/" target="_blank" rel="noreferrer">
