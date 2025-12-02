@@ -758,6 +758,16 @@ body {
   box-shadow: 0 10px 24px rgba(146, 235, 255, 0.32);
 }
 
+.contact-discord {
+  border-color: rgba(88, 101, 242, 0.55);
+  background: linear-gradient(135deg, #5865f2, #8ea1e1);
+  color: #fff;
+}
+
+.contact-discord:hover {
+  box-shadow: 0 10px 28px rgba(88, 101, 242, 0.35);
+}
+
 .site-footer {
   margin-top: auto;
   padding: 28px 32px;

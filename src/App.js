@@ -119,8 +119,8 @@ const mediaItems = [
 const roadmapFlowChart = `
 flowchart TD
   phase1([Phase 1 • Systems Foundation])
-  phase2([Phase 2 • Live Sync and Collaboration])
-  phase3([Phase 3 • Automation and Extensions])
+  phase2([Phase 2 • Basic Multimedia & MIDI Support])
+  phase3([Phase 3 • Ease of Use & Advanced Features])
   release([Release])
 
   phase1 -.-> p1_item1[Per-action visual customization: color and styling]
@@ -501,7 +501,7 @@ function App() {
             <div style={overlayStyle} />
             <h1 className="hero-headline">Orbit‑X</h1>
             <h2 className="hero-subline">Orchestrating your production made easy</h2>
-            <div className="hero-meta">Coming in 2026</div>
+            <div className="hero-meta">Open Alpha available now!</div>
           </section>
 
           {/* Second Section */}
@@ -686,6 +686,14 @@ function App() {
                   rel="noreferrer"
                 >
                   TikTok
+                </a>
+                <a
+                  className="contact-social contact-discord"
+                  href="https://discord.gg/RP8MBW9WAT"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Join our Discord
                 </a>
               </div>
               <p>
