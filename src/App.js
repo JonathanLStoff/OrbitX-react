@@ -318,6 +318,7 @@ function MermaidChart({ chart }) {
 
 function App() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [isNavOpen, setIsNavOpen] = useState(false);
   // Ensure reload/page show resets to top so the roadmap and other tabs don't persist scroll
   useEffect(() => {
     // prefer manual so the browser doesn't re-use previous scroll positions
@@ -366,6 +367,22 @@ function App() {
     } catch (e) {
       // ignore
     }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900 && isNavOpen) {
+        setIsNavOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isNavOpen]);
+
+  const handleTabSelect = (tab) => {
+    changeTab(tab);
+    setIsNavOpen(false);
   };
 
   useEffect(() => {
@@ -828,38 +845,49 @@ function App() {
           <span className="brand-glow" />
           <span className="brand-name">Orbit‑X</span>
         </div>
-        <nav className="nav-tabs">
+        <button
+          className="nav-toggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded={isNavOpen}
+          onClick={() => setIsNavOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav className={`nav-tabs ${isNavOpen ? 'nav-tabs-open' : ''}`} id="primary-navigation">
           <button
             className={`nav-tab ${activeTab === 'overview' ? 'nav-tab-active' : ''}`}
-            onClick={() => changeTab('overview')}
+            onClick={() => handleTabSelect('overview')}
             type="button"
           >
             Overview
           </button>
           <button
             className={`nav-tab ${activeTab === 'downloads' ? 'nav-tab-active' : ''}`}
-            onClick={() => changeTab('downloads')}
+            onClick={() => handleTabSelect('downloads')}
             type="button"
           >
             Downloads
           </button>
           <button
             className={`nav-tab ${activeTab === 'media' ? 'nav-tab-active' : ''}`}
-            onClick={() => changeTab('media')}
+            onClick={() => handleTabSelect('media')}
             type="button"
           >
             Media
           </button>
           <button
             className={`nav-tab ${activeTab === 'roadmap' ? 'nav-tab-active' : ''}`}
-            onClick={() => changeTab('roadmap')}
+            onClick={() => handleTabSelect('roadmap')}
             type="button"
           >
             Roadmap
           </button>
           <button
             className={`nav-tab ${activeTab === 'contact' ? 'nav-tab-active' : ''}`}
-            onClick={() => changeTab('contact')}
+            onClick={() => handleTabSelect('contact')}
             type="button"
           >
             Contact
@@ -869,6 +897,7 @@ function App() {
             href="https://www.paypal.com/donate/?hosted_button_id=XEAKWNJ9ST2NW"
             target="_blank"
             rel="noreferrer"
+            onClick={() => setIsNavOpen(false)}
           >
             Donate
           </a>
