@@ -49,7 +49,7 @@ const downloadsData = [
   {
     id: 'macos-apple',
     title: 'macOS · Apple Silicon',
-    description: 'Optimized build for M1, M2, and M3 devices running macOS 12 or later.',
+    description: 'Native build for Apple Silicon Macs (M1 and newer) running macOS 11 Big Sur or later.',
     href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/OrbitX-macos-arm64.dmg',
     platform: 'macOS',
     icon: 'apple',
@@ -57,10 +57,26 @@ const downloadsData = [
   {
     id: 'macos-intel',
     title: 'macOS · Intel',
-    description: 'Universal installer for Intel-based Macs (macOS 11 Big Sur or newer).',
+    description: 'Installer for Intel-based Macs running macOS 11 Big Sur or later.',
     href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/OrbitX-macos-x86_64.dmg',
     platform: 'macOS',
     icon: 'apple',
+  },
+  {
+    id: 'linux-appimage',
+    title: 'Linux AppImage',
+    description: 'Runs on most 64-bit Linux distributions. Make it executable and launch it, no install needed.',
+    href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-linux-x86_64.AppImage',
+    platform: 'Linux',
+    icon: 'linux',
+  },
+  {
+    id: 'linux-deb',
+    title: 'Linux · Debian / Ubuntu (.deb)',
+    description: 'Package for 64-bit Debian, Ubuntu and derivatives. Install with sudo apt install ./orbitx-linux-amd64.deb.',
+    href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-linux-amd64.deb',
+    platform: 'Linux',
+    icon: 'linux',
   },
 ];
 
@@ -74,6 +90,17 @@ const platformIcons = {
       focusable="false"
     >
       <path d="M0 93.7L183.7 68.8v141.9L0 201.6V93.7zm204.8-27l243.2-34.9v189.7L204.8 216.2V66.7zM183.7 266.9v143.2L0 385.1V249.9l183.7-9.1zm21.1 1.9L448 281.6v198.4l-243.2 35.2V268.8z" />
+    </svg>
+  ),
+  linux: (
+    <svg
+      className="platform-icon"
+      viewBox="0 0 512 512"
+      role="img"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M64 64h384c17.7 0 32 14.3 32 32v320c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32zm40 88l96 80-96 80 24 29 126-109-126-109-24 29zm136 168v40h152v-40H240z" fill-rule="evenodd" />
     </svg>
   ),
   apple: (
