@@ -343,8 +343,26 @@ function MermaidChart({ chart }) {
   return <div ref={containerRef} className="mermaid-chart" dangerouslySetInnerHTML={{ __html: diagram }} />;
 }
 
+const VALID_TABS = ['overview', 'downloads', 'media', 'roadmap', 'contact', 'privacy'];
+
+function initialTabFromLocation() {
+  if (typeof window === 'undefined') return 'overview';
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
+  const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+  const queryTab = new URLSearchParams(window.location.search).get('tab')?.toLowerCase() || '';
+  for (const candidate of [path, hash, queryTab]) {
+    if (candidate === 'privacy' || candidate === 'privacy-policy' || candidate === 'privacypolicy') {
+      return 'privacy';
+    }
+    if (VALID_TABS.includes(candidate)) {
+      return candidate;
+    }
+  }
+  return 'overview';
+}
+
 function App() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(initialTabFromLocation);
   const [isNavOpen, setIsNavOpen] = useState(false);
   // Ensure reload/page show resets to top so the roadmap and other tabs don't persist scroll
   useEffect(() => {
@@ -387,6 +405,10 @@ function App() {
   const changeTab = (tab) => {
     setActiveTab(tab);
     try {
+      const nextUrl = tab === 'overview' ? '/' : `/${tab}`;
+      if (window.history && window.history.pushState && window.location.pathname !== nextUrl) {
+        window.history.pushState({ tab }, '', nextUrl);
+      }
       // scroll to top of page (both body and documentElement supports)
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       document.body.scrollTop = 0;
@@ -395,6 +417,18 @@ function App() {
       // ignore
     }
   };
+
+  useEffect(() => {
+    const onPopState = () => {
+      setActiveTab(initialTabFromLocation());
+    };
+    window.addEventListener('popstate', onPopState);
+    window.addEventListener('hashchange', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+      window.removeEventListener('hashchange', onPopState);
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -781,6 +815,180 @@ function App() {
       );
     }
 
+    if (activeTab === 'privacy') {
+      return (
+        <section className="privacy-section">
+          <div className="privacy-intro">
+            <span className="eyebrow">Legal &amp; Privacy</span>
+            <h1>Privacy Policy</h1>
+            <p className="privacy-meta">
+              Effective Date: November 16, 2026 &nbsp;·&nbsp; Last Updated: November 16, 2026 &nbsp;·&nbsp; StoffAudio
+            </p>
+            <p>
+              Orbit‑X (&ldquo;Orbit‑X: Show Control&rdquo;) is a local‑first show‑control platform built by StoffAudio for
+              macOS, Windows, Linux, iOS, iPadOS, and Android, alongside our website at{' '}
+              <a className="contact-link" href="https://www.orbit-x.app">
+                orbit-x.app
+              </a>
+              . Your show files, media cues, and production setups belong to you and stay on your devices.
+            </p>
+          </div>
+
+          <div className="privacy-grid">
+            <article className="privacy-card">
+              <h2>1. Local‑First Data Handling</h2>
+              <p>
+                Orbit‑X processes and stores your show projects (<code>.obx</code> / <code>.orbx</code> bundles), audio
+                stems, video cues, still images, lighting looks, MIDI sequences, and hardware routing configurations
+                <strong> locally on your device</strong>.
+              </p>
+              <ul>
+                <li>
+                  <strong>No Cloud Upload of Show Files:</strong> Your cue lists, cue names, media assets, and show
+                  timings are never uploaded to StoffAudio servers.
+                </li>
+                <li>
+                  <strong>Files, Photos &amp; Media Pickers:</strong> On iOS, iPadOS, Android, and desktop, when you tap{' '}
+                  <em>+ Add cue</em> or open/save a project, Orbit‑X uses the operating system&rsquo;s native document
+                  picker (<code>UIDocumentPickerViewController</code> / Android Storage Access Framework) or photo
+                  library picker (<code>PHPickerViewController</code> / Android Photo Picker). Orbit‑X only accesses
+                  the specific files or photos you explicitly select and never scans your library in the background.
+                </li>
+                <li>
+                  <strong>Hardware &amp; Local Network Access:</strong> Orbit‑X enumerates connected audio interfaces,
+                  displays, MIDI ports, and DMX/OSC devices on your machine or local network solely to execute your
+                  show cues and recover cleanly if a device is unplugged.
+                </li>
+              </ul>
+            </article>
+
+            <article className="privacy-card">
+              <h2>2. Analytics &amp; Tracking</h2>
+              <p>
+                We do <strong>not</strong> sell, rent, or monetize your personal data, and we do <strong>not</strong>{' '}
+                embed third‑party behavioral advertising SDKs or cross‑app tracking identifiers in the Orbit‑X
+                application (<code>NSPrivacyTracking = false</code>).
+              </p>
+              <ul>
+                <li>
+                  <strong>Desktop &amp; Mobile App:</strong> No background telemetry, behavioral profiling, or usage
+                  analytics are collected while you build or run a show.
+                </li>
+                <li>
+                  <strong>Website (orbit-x.app):</strong> Our website may collect standard, aggregated web server logs
+                  (such as browser type, referring page, and coarse request timestamps) and standard Core Web Vitals
+                  metrics solely to keep the site reliable and fast.
+                </li>
+              </ul>
+            </article>
+
+            <article className="privacy-card">
+              <h2>3. Bug Diagnostics &amp; Crash Logs</h2>
+              <p>
+                Live shows demand high reliability. To help diagnose hardware disconnects or media decoding issues
+                without compromising your privacy:
+              </p>
+              <ul>
+                <li>
+                  <strong>On‑Device Logs:</strong> Orbit‑X writes operational and error logs to your device&rsquo;s
+                  local application log directory. These logs remain strictly on your device unless you choose to attach
+                  them when contacting support.
+                </li>
+                <li>
+                  <strong>OS Crash Reports:</strong> If you opt in to sharing crash diagnostics with app developers via
+                  Apple (App Store / TestFlight), Google Play, or Microsoft Store, those platforms may provide us with
+                  anonymized crash stack traces and device/OS version metadata governed by your OS privacy settings.
+                </li>
+                <li>
+                  <strong>Apple Required Reason APIs:</strong> On Apple platforms, Orbit‑X accesses file timestamps (
+                  <code>C617.1</code>), system boot/monotonic clock time (<code>35F9.1</code> for deterministic cue
+                  timing), and local user defaults (<code>CA92.1</code>) strictly on‑device for core show functionality.
+                </li>
+              </ul>
+            </article>
+
+            <article className="privacy-card">
+              <h2>4. User Feedback, Support &amp; Licensing</h2>
+              <ul>
+                <li>
+                  <strong>Support &amp; Feedback:</strong> When you email us at{' '}
+                  <a className="contact-link" href="mailto:info@orbit-x.app">
+                    info@orbit-x.app
+                  </a>{' '}
+                  or reach out on Discord or social media with bug reports, feature requests, or production questions,
+                  we receive your email address or handle and any diagnostic files or notes you voluntarily share so we
+                  can assist you.
+                </li>
+                <li>
+                  <strong>License Keys:</strong> If you enter a license key in Orbit‑X Settings, your license key and
+                  associated email address are stored in your local settings file to display your license tier.
+                </li>
+              </ul>
+            </article>
+
+            <article className="privacy-card">
+              <h2>5. Third‑Party Services &amp; Integrations</h2>
+              <p>
+                Orbit‑X interacts only with external platforms needed to distribute releases, accept voluntary
+                donations, or connect to community channels you choose to open:
+              </p>
+              <ul>
+                <li>
+                  <strong>App Stores &amp; Package Repositories:</strong> Apple App Store &amp; TestFlight, Google Play
+                  Store, Microsoft Store, Cloudsmith (Linux APT &amp; DNF repositories), GitHub Releases, and Supabase
+                  S3 storage (used to serve direct installer downloads on our Downloads page). Downloads from these
+                  services are governed by their respective privacy policies.
+                </li>
+                <li>
+                  <strong>Donations:</strong> Voluntary contributions via the Donate button are processed directly by
+                  PayPal. StoffAudio never receives or stores your payment card or bank details.
+                </li>
+                <li>
+                  <strong>Social &amp; Community Links:</strong> External links to Discord, Instagram, and TikTok open
+                  those services only when you click them.
+                </li>
+              </ul>
+            </article>
+
+            <article className="privacy-card">
+              <h2>6. Data Retention, Children&rsquo;s Privacy &amp; Your Rights</h2>
+              <ul>
+                <li>
+                  <strong>Data Control &amp; Deletion:</strong> You can delete your local <code>.obx</code> show files,
+                  clear recent projects, or uninstall Orbit‑X at any time to remove all local application data. To
+                  request deletion of any support emails or contact records held by StoffAudio, email{' '}
+                  <a className="contact-link" href="mailto:info@orbit-x.app">
+                    info@orbit-x.app
+                  </a>{' '}
+                  and we will fulfill your request within 30 days.
+                </li>
+                <li>
+                  <strong>Educational &amp; Children&rsquo;s Privacy:</strong> Orbit‑X is used in schools, universities,
+                  and community theaters. Because the app requires no user account and collects no personal data from
+                  users, students and educators can run shows without submitting personal information. We do not
+                  knowingly collect personal data from children under 13.
+                </li>
+                <li>
+                  <strong>GDPR, CCPA &amp; Global Rights:</strong> Regardless of your location, you have the right to
+                  request access to, correction of, or deletion of any personal information you have shared with us.
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <div className="privacy-footer-card">
+            <h2>Questions or Privacy Requests?</h2>
+            <p>
+              Contact Jonathan Stoff at StoffAudio:{' '}
+              <a className="contact-link" href="mailto:info@orbit-x.app">
+                info@orbit-x.app
+              </a>
+            </p>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="media-section">
         <div className="media-intro">
@@ -919,6 +1127,13 @@ function App() {
           >
             Contact
           </button>
+          <button
+            className={`nav-tab ${activeTab === 'privacy' ? 'nav-tab-active' : ''}`}
+            onClick={() => handleTabSelect('privacy')}
+            type="button"
+          >
+            Privacy
+          </button>
           <a
             className="nav-tab nav-tab-donate"
             href="https://www.paypal.com/donate/?hosted_button_id=XEAKWNJ9ST2NW"
@@ -935,6 +1150,15 @@ function App() {
         <div className="footer-content">
           <span>© {currentYear} Orbit‑X. Owned by StoffAudio. All rights reserved.</span>
           <div className="footer-links">
+            <a
+              href="/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabSelect('privacy');
+              }}
+            >
+              Privacy Policy
+            </a>
             <a href="mailto:info@orbit-x.app">info@orbit-x.app</a>
             <a href="https://www.instagram.com/orbitx_app/" target="_blank" rel="noreferrer">
               Instagram

@@ -820,6 +820,124 @@ body {
   box-shadow: 0 10px 28px rgba(88, 101, 242, 0.35);
 }
 
+.privacy-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 36px 24px 64px;
+  background: radial-gradient(circle at 15% 10%, rgba(130, 242, 255, 0.18), transparent 52%),
+    radial-gradient(circle at 85% 15%, rgba(216, 139, 255, 0.16), transparent 58%),
+    #040404;
+}
+
+.privacy-intro {
+  max-width: 780px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.privacy-intro h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.privacy-meta {
+  margin: 0;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(146, 235, 255, 0.82);
+}
+
+.privacy-intro p {
+  margin: 0;
+  color: rgba(229, 241, 255, 0.85);
+  line-height: 1.75;
+}
+
+.privacy-grid {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.privacy-card {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 18px 46px rgba(12, 16, 32, 0.54);
+  backdrop-filter: blur(18px);
+  text-align: left;
+}
+
+.privacy-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f6fbff;
+}
+
+.privacy-card p {
+  margin: 0;
+  color: rgba(226, 237, 255, 0.88);
+  line-height: 1.7;
+}
+
+.privacy-card ul {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: rgba(226, 237, 255, 0.86);
+  line-height: 1.65;
+}
+
+.privacy-card code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(146, 235, 255, 0.12);
+  color: #9de3ff;
+}
+
+.privacy-footer-card {
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+  border: 1px solid rgba(146, 235, 255, 0.45);
+  background: linear-gradient(165deg, rgba(12, 20, 48, 0.88), rgba(44, 14, 56, 0.66));
+  border-radius: 22px;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.privacy-footer-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.privacy-footer-card p {
+  margin: 0;
+  color: rgba(226, 237, 255, 0.9);
+}
+
 .site-footer {
   margin-top: auto;
   padding: 28px 32px;
