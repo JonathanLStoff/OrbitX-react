@@ -63,20 +63,28 @@ const downloadsData = [
     icon: 'apple',
   },
   {
-    id: 'linux-appimage',
-    title: 'Linux AppImage',
-    description: 'Runs on most 64-bit Linux distributions. Make it executable and launch it, no install needed.',
-    href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-linux-x86_64.AppImage',
-    platform: 'Linux',
-    icon: 'linux',
-  },
-  {
     id: 'linux-deb',
     title: 'Linux · Debian / Ubuntu (.deb)',
     description: 'Package for 64-bit Debian, Ubuntu and derivatives. Install with sudo apt install ./orbitx-linux-amd64.deb.',
     href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-linux-amd64.deb',
     platform: 'Linux',
     icon: 'linux',
+  },
+  {
+    id: 'linux-rpm',
+    title: 'Linux · Fedora / openSUSE (.rpm)',
+    description: 'Package for 64-bit Fedora, RHEL, openSUSE and derivatives. Install with sudo dnf install ./orbitx-linux-x86_64.rpm.',
+    href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-linux-x86_64.rpm',
+    platform: 'Linux',
+    icon: 'linux',
+  },
+  {
+    id: 'android-apk',
+    title: 'Android (APK)',
+    description: 'For Android 8 or later phones and tablets. MIDI needs Android 10 or later.',
+    href: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/orbitx-android-universal.apk',
+    platform: 'Android',
+    icon: 'android',
   },
 ];
 
@@ -103,6 +111,17 @@ const platformIcons = {
       <path d="M64 64h384c17.7 0 32 14.3 32 32v320c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32zm40 88l96 80-96 80 24 29 126-109-126-109-24 29zm136 168v40h152v-40H240z" fill-rule="evenodd" />
     </svg>
   ),
+  android: (
+    <svg
+      className="platform-icon"
+      viewBox="0 0 512 512"
+      role="img"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M152 140l-34-58 14-8 35 59c26-12 57-19 89-19s63 7 89 19l35-59 14 8-34 58c52 30 88 82 92 144H60c4-62 40-114 92-144zm34 76a18 18 0 1 0 0-36 18 18 0 0 0 0 36zm140 0a18 18 0 1 0 0-36 18 18 0 0 0 0 36zM60 304h392v146c0 18-14 32-32 32H92c-18 0-32-14-32-32V304z" fill-rule="evenodd" />
+    </svg>
+  ),
   apple: (
     <svg
       className="platform-icon"
@@ -118,28 +137,34 @@ const platformIcons = {
 
 const mediaItems = [
   {
-    id: 'live-playback',
-    src: '/screencap.png',
-    alt: 'Orbit‑X live playback workspace showing synchronized audio, video, and projection cue list',
-    caption: 'Live playback workspace with synchronized audio, video, and lighting cues.',
+    id: 'board',
+    src: '/marketing/screens/01-audio-board.png',
+    alt: 'Orbit‑X cue list with songs and sound effects and the GO button',
+    caption: 'One cue list, one GO button. Songs, sound effects, videos and pictures fire in order.',
   },
   {
-    id: 'cue-builder',
-    src: '/screencap1.png',
-    alt: 'Orbit‑X cue builder interface layering lighting focus presets and MIDI triggers',
-    caption: 'Build layered cue sequences with drag-and-drop precision and instant previews.',
+    id: 'trim',
+    src: '/marketing/screens/03-audio-edit-edit.png',
+    alt: 'Orbit‑X Edit tab trimming a song on its waveform',
+    caption: 'Trim the start and end on the waveform, with fades in and out.',
   },
   {
-    id: 'stage-atmosphere',
-    src: 'https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/orbitbg.gif',
-    alt: 'Orbit‑X stage visual atmosphere with theatrical automation lighting looks',
-    caption: 'Immersive stage looks rendered in real-time to match your show energy.',
+    id: 'timing',
+    src: '/marketing/screens/06-audio-edit-timing.png',
+    alt: 'Orbit‑X Timing tab with pre-wait, loop and auto-follow settings',
+    caption: 'Pre-waits, loops and follow-ons, so cues run themselves.',
   },
   {
-    id: 'sound-craft',
-    src: '/soundb.jpeg',
-    alt: 'Sound board connected to Orbit‑X handling sound design cue list playback',
-    caption: 'Orbit‑X working alongside FOH consoles for flawless sound transitions.',
+    id: 'mix',
+    src: '/marketing/screens/05-audio-edit-mix.png',
+    alt: 'Orbit‑X Mix tab with gain, pan and output routing for a cue',
+    caption: 'Gain, pan, mute and solo per cue, routed to the outputs you have.',
+  },
+  {
+    id: 'video',
+    src: '/marketing/screens/07-video-board.png',
+    alt: 'Orbit‑X cue list with video cues',
+    caption: 'Videos and pictures are cues too, with fit, fill, fades and transitions.',
   },
 ];
 
@@ -511,54 +536,76 @@ function App() {
   );
 
   const featuresData = [
-    { text: 'Design and execute precision cue sheets tailored to your production' },
-    { text: 'Seamless show control with programmable MIDI integration' },
-    { text: 'Intuitive interface designed for fast, reliable operation under pressure' },
-    { text: 'Created by performing artists for the theatrical community' },
-    { text: 'Purpose-built for the evolving demands of live performance' },
+    { text: "Build the show as a list of cues: songs, sound effects, background videos and images" },
+    { text: "During the show, press GO and the next cue plays" },
+    { text: "Made for school plays, community theater, churches, talent shows, bands with backing tracks and streams" },
+    { text: "Cues fire on time without learning a full theater console" },
     {
-      text: 'Launch version includes:',
+      text: "Every show includes:",
       subFeatures: [
-        'Audio playback cues',
-        'Video playback cues',
-        'Image projection cues',
-        'MIDI control & note triggers',
-        'Cue grouping & sequences',
-        'Extensible plugin architecture',
+        "Audio, video and picture cues",
+        "Trim, fades and loops",
+        "Pre-waits, follow-ons and timed cues",
+        "Per-cue mix, submixes and bus sends",
+        "Built-in EQ, compressor, delay and reverb",
+        "One .obx show file on every device",
       ],
     },
   ];
 
   const featureHighlights = [
     {
-      id: 'cue-engine',
-      title: 'Integrated Cue Engine for Audio, Video, and Projection',
-      description:
-        'Build a sound design cue list that links audio stems, timecode-synced video, and projection looks in a single timeline. Orbit-X keeps fades, visual transitions, and safety pauses in sync so stage managers can call the show with confidence.',
+      id: "cue-list",
+      title: "Cue list with GO",
+      points: [
+        "Cues run in order; one big GO button fires the next one, and Stop ends what is playing.",
+        "Number, name, colour and group cues so the list reads at a glance in a dark booth.",
+        "Lock the console during the show so a stray tap cannot change anything.",
+      ],
     },
     {
-      id: 'midi-show-control',
-      title: 'MIDI Show Control & Theatrical Automation',
-      description:
-        'Route MIDI show control messages, OSC cues, and automation triggers to motion rigs and lighting consoles without writing custom scripts. Orbit-X acts as the theatrical automation software layer that keeps rigging, lifts, and effects aligned with spoken dialogue and musical beats.',
+      id: "timing",
+      title: "Timing that runs itself",
+      points: [
+        "A cue can wait before it starts, start with the cue before it, or start after it ends.",
+        "Loop a cue, set a pre-wait or post-wait, or schedule it for a time of day.",
+        "Fire cues from keys and triggers, so whole sequences run hands-free.",
+      ],
     },
     {
-      id: 'mac-alternative',
-      title: 'Mac & Windows Friendly Show Control Alternative',
-      description:
-        'Whether you need a Mac show control alternative or a Windows workstation, Orbit-X ships with optimized builds for both Apple Silicon and Intel hardware. Designers can install it on rehearsal laptops, redundancy machines, or traveling flypacks with identical performance.',
+      id: "sound",
+      title: "Sound",
+      points: [
+        "Trim in and out points on the waveform, and fade in and out.",
+        "Gain, pan, mute and solo per cue, with submixes and bus sends for the outputs you have.",
+        "Built-in effects on each cue: EQ, compressor, limiter, gate, delay and reverb.",
+        "An output limiter keeps every output under a ceiling you set.",
+      ],
     },
     {
-      id: 'touring-resilience',
-      title: 'Touring-Grade Reliability for Live Production Tools',
-      description:
-        'Redundant cue stacks, checksum-protected media, and offline editing mean productions keep rolling even when the network hiccups. Touring programmers can rehearse scenes on the bus, then push updates that remain perfectly in sync once the rig powers up.',
+      id: "video",
+      title: "Video and pictures",
+      points: [
+        "Play videos and still images as cues, with fit, fill and stretch, fades and transitions.",
+        "Colour, gamma, crop and chroma key looks per clip.",
+        "A video's sound becomes its own cue, with its own level, effects and routing.",
+      ],
     },
     {
-      id: 'creative-workbench',
-      title: 'Creative Workbench with Extensible Plugins',
-      description:
-        'Extend Orbit-X with custom plugins that talk to DMX gateways, laser controllers, or immersive audio processors. Designers can sketch new workflows, expose them to assistants, and version-control cues just like code—so experimentation never blocks a live cueing session.',
+      id: "every-device",
+      title: "One show file, every device",
+      points: [
+        "A show is a single .obx file that opens on Android, iPhone, iPad, Mac, Windows and Linux.",
+        "Build the show on a computer and run it from a tablet, or the other way round.",
+      ],
+    },
+    {
+      id: "show-night",
+      title: "Holds up during the show",
+      points: [
+        "Edits save in the background, and a backup of unsaved changes is offered back after a crash.",
+        "If the audio engine stops, Orbit-X restarts it and tells you, instead of going silent.",
+      ],
     },
   ];
 
@@ -578,8 +625,8 @@ function App() {
             />
             <div style={overlayStyle} />
             <h1 className="hero-headline">Orbit‑X</h1>
-            <h2 className="hero-subline">Orchestrating your production made easy</h2>
-            <div className="hero-meta">Open Alpha available now!</div>
+            <h2 className="hero-subline">Run the sound, video and pictures for a live show from one cue list. Press GO.</h2>
+            <div className="hero-meta">Free for Windows, Mac, Linux and Android</div>
           </section>
 
           {/* Second Section */}
@@ -592,15 +639,15 @@ function App() {
             }}
           >
             <img
-              src="/screencap.png"
-              alt="Orbit-X dark mode interface preview with lighting, sound, and video cue sheets"
+              src="/marketing/ui_hero.png"
+              alt="Orbit-X cue list with the GO button"
               style={{ ...backgroundStyle, filter: 'blur(10px)' }}
             />
             <div className="features-showcase">
-              <h2 className="section-title">A revolutionary platform for production management</h2>
+              <h2 className="section-title">Your whole show in one cue list</h2>
               <p className="features-lede">
-                Orbit‑X keeps every department in sync—so your lighting, sound, video, and automation teams
-                deliver one polished performance after another with the precision of a fully-orchestrated cueing system.
+                Orbit‑X runs the sound, video and pictures for a live show from one cue list. Build the show as a list
+                of cues, then press GO and the next cue plays, on time.
               </p>
               <div className="features-container features-centered">
                 <ul className="main-features-list">
@@ -621,52 +668,22 @@ function App() {
                 </ul>
               </div>
               <div className="feature-details">
-                <h3 className="feature-details-heading">Detailed features for production leads</h3>
-                <p className="feature-details-subtext">
-                  Google, stage managers, and prospective partners can now understand how Orbit‑X handles MIDI show control, theatrical automation software workflows, and live production tools in depth.
-                </p>
+                <h3 className="feature-details-heading">What it does</h3>
                 <div className="feature-detail-grid">
                   {featureHighlights.map((highlight) => (
                     <article key={highlight.id} className="feature-detail-card">
                       <h4>{highlight.title}</h4>
-                      <p>{highlight.description}</p>
+                      <ul>
+                        {highlight.points.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
                     </article>
                   ))}
                 </div>
-                <div className="feature-longform">
-                  <h3 className="feature-longform-heading">How Orbit‑X orchestrates modern shows</h3>
-                  <p>
-                    Orbit‑X is a unified show control platform designed to consolidate lighting, sound, video, and
-                    automation into a single coordinated environment. As a theater‑grade cue engine, it enables
-                    programmers to build deterministic cue sequences that tie audio stems to timecode-synchronized
-                    video and projection cues while maintaining consistent fade curves and fail-safes for live
-                    performance. This streamlined approach reduces the cognitive load on operators and allows
-                    production teams to iterate quickly during rehearsals without risking out-of-sync transitions.
-                  </p>
-                  <p>
-                    MIDI Show Control (MSC) and OSC are first-class citizens in Orbit‑X. From complex cueing chains
-                    that trigger motion rigs and projection displays to simple MIDI note events that launch backup
-                    audio, Orbit‑X can act as a central routing and timing layer for distributed show hardware. This
-                    is particularly useful for touring productions and school theaters where technical setups can vary
-                    but the show needs to behave the same across venues.
-                  </p>
-                  <p>
-                    For designers and sound engineers who require precision, Orbit‑X supports redundancy, versioned
-                    cue stacks, and strong error handling for media playback. The platform supports platform‑specific
-                    binaries for Apple Silicon, Intel Macs, and Windows, offering a Mac‑friendly show control
-                    alternative while also keeping the system familiar for engineers who prefer Windows-based
-                    production setups. Extensible plugins allow integration with DMX gateways, custom hardware, and
-                    third-party DSPs, which means creative workflows no longer require low-level scripting to run
-                    reliably during a show.
-                  </p>
-                  <p>
-                    From a workflow perspective, Orbit‑X is built for live performance scenarios where safety, timing,
-                    and repeatability are crucial. Its cue groups, safety checks, and step-through tools are
-                    designed for stage managers and technical directors who need predictable, traceable show
-                    execution during live events. Educators and theaters can adopt Orbit‑X as a teaching tool for
-                    cueing best practices that bridge the gap between artistic intention and technical execution.
-                  </p>
-                </div>
+                <p className="feature-details-subtext">
+                  Platform notes: MIDI needs Android 10 or later. External displays depend on what the device supports.
+                </p>
               </div>
             </div>
           </section>
@@ -995,8 +1012,8 @@ function App() {
           <span className="eyebrow">Media</span>
           <h1>See Orbit‑X in action</h1>
           <p>
-            Explore production stills and motion captures that highlight how Orbit‑X supports directors,
-            stage managers, and designers during every step of the show.
+            A one-minute tour: build a cue list, trim a song, loop the background music, let cues count down
+            themselves, mix and add effects.
           </p>
         </div>
         <div className="promo-wrapper">
@@ -1004,39 +1021,12 @@ function App() {
             ref={promoVideoRef}
             className="promo-video"
             playsInline
-            muted
-            autoPlay
-            // No controls to prevent time timeline display, user can fullscreen with button
-            controls={false}
-            // We'll implement custom loop control so it restarts at 60s instead of 0
-            onLoadedMetadata={(e) => {
-              const video = e.currentTarget;
-              try {
-                if (video.duration > 60) {
-                  video.currentTime = 60;
-                  // Attempt to play after seeking
-                  video.play().catch(() => {});
-                }
-              } catch (err) {
-                // ignore
-              }
-            }}
-            onEnded={(e) => {
-              const video = e.currentTarget;
-              try {
-                video.currentTime = 60;
-                video.play().catch(() => {});
-              } catch (err) {
-                // ignore
-              }
-            }}
-            aria-label="Orbit-X promo video"
-            loop={false}
+            controls
+            preload="metadata"
+            poster="/marketing/ui_hero.png"
+            aria-label="Orbit-X tour video"
           >
-            <source
-              src="https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/promo/promo0.0.13a.mov"
-              type="video/mp4"
-            />
+            <source src="/marketing/final_wide_16x9.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <button

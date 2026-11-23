@@ -252,6 +252,18 @@ body {
   color: #f2f7ff;
 }
 
+.feature-detail-card ul {
+  margin: 0;
+  padding-left: 1.2em;
+  text-align: left;
+  color: rgba(225, 240, 255, 0.9);
+  line-height: 1.6;
+}
+
+.feature-detail-card li + li {
+  margin-top: 6px;
+}
+
 .feature-detail-card p {
   margin: 0;
   color: rgba(225, 240, 255, 0.9);
