@@ -1026,7 +1026,11 @@ function App() {
             poster="/marketing/ui_hero.png"
             aria-label="Orbit-X tour video"
           >
-            <source src="/marketing/final_wide_16x9.mp4" type="video/mp4" />
+            {/* mp4s are gitignored here, so the tour is served from Supabase (make market-pub uploads it) */}
+            <source
+              src="https://rvcfjohfhblhvpnshzbd.supabase.co/storage/v1/object/public/orbitx-application-download/run-your-whole-show-from-one-button/final_wide_16x9.mp4"
+              type="video/mp4"
+            />
             Your browser does not support the video tag.
           </video>
           <button
