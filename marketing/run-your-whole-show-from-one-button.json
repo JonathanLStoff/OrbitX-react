@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-10",
+  "mode": "evergreen_full_app",
+  "slug": "run-your-whole-show-from-one-button",
+  "title": "Run Your Whole Show From One Button",
+  "summary": "OrbitX lines up your songs, sound effects, background videos, and pictures in one playlist. Fire each cue with a big green GO button, then trim, loop, time, mix, and add effects, all from a laptop or phone.",
+  "markdown": "# Run Your Whole Show From One Button\n\nWhether it's a school play, a talent show, a band night, or a livestream, OrbitX puts your whole show in one place. Music, sound effects, background videos, and pictures all sit in one playlist, and you fire them on cue.\n\n## The tour\n\n1. **One playlist, one button.** Songs, sound effects, videos, and pictures live in one cue list. Hit the big green GO button or the spacebar, and the next cue starts right on time.\n2. **Cut out the dead air.** Open a song's Edit tab, type new start and end points, and see the part you keep. Trim in seconds, no fiddling.\n3. **Loop background music smoothly.** Turn on Loop, and a video follows the cue before it. Background tracks keep going with no awkward gap.\n4. **Let cues count down themselves.** Set a countdown in the Timing tab, and the cue fires by itself. Sound effects and scene changes happen on time while you focus on the performers.\n5. **Slide the volume down.** In the Mix tab, lower a cue's volume so the speech cuts through.\n6. **Add effects in seconds.** The Plugins tab adds effects to any cue. A touch of echo can make a voice fill the whole hall.\n\n## Works where you work\n\nBuild your show on a laptop and open the same .obx project file on Windows, Mac, or Linux. It also runs on iPhone, iPad, and Android, so you can make changes backstage.\n\n## Built for show night\n\nEvery edit saves automatically in the background, so a crash won't wipe out your work. If a speaker or USB cable gets bumped, OrbitX reconnects on its own.\n\n## Try it\n\nVisit [orbit-x.app](https://orbit-x.app) and build your next show.",
+  "highlights": [
+    {
+      "title": "Run Music, Sound Effects, Videos & Pictures with One Button",
+      "summary": "Line up all your songs, sound effects, background videos, and pictures in one clean playlist and fire them right on cue with the giant GO button or spacebar."
+    },
+    {
+      "title": "Trim Songs Visually & Loop Background Music Smoothly",
+      "summary": "See the actual audio waveform, drag the start and end handles to cut out dead air, and loop background tracks without any awkward pause or gap."
+    },
+    {
+      "title": "Auto-Chain Cues with Countdown Timers",
+      "summary": "Set a pre-wait countdown or make one cue automatically trigger the next so sound effects, scene transitions, and videos run themselves hands-free."
+    },
+    {
+      "title": "Works on Mac, Windows, Linux, iPhone, iPad & Android",
+      "summary": "Build your show on a laptop and open the exact same .obx project file on Windows, Mac, Linux, or even your phone backstage."
+    },
+    {
+      "title": "Auto-Save Protection & Self-Healing Playback",
+      "summary": "Every edit is saved automatically in the background so a crash never ruins your show, and if a speaker or USB cable gets bumped, OrbitX reconnects automatically."
+    }
+  ],
+  "media": {
+    "videoWide": "https://rvcfjohfhblhvpnshzbd.storage.supabase.co/storage/v1/object/public/orbitx-application-download/run-your-whole-show-from-one-button/final_wide_16x9.mp4",
+    "videoShort": "https://rvcfjohfhblhvpnshzbd.storage.supabase.co/storage/v1/object/public/orbitx-application-download/run-your-whole-show-from-one-button/final_short_9x16.mp4",
+    "heroImage": "https://rvcfjohfhblhvpnshzbd.storage.supabase.co/storage/v1/object/public/orbitx-application-download/run-your-whole-show-from-one-button/ui_hero.png"
+  }
+}
