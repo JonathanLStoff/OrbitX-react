@@ -445,6 +445,93 @@ body {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.stores-row {
+  width: 100%;
+  max-width: 960px;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.store-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* Badges stay unaltered (store guidelines); only their height is set. */
+.store-badge {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+/* Google's PNG carries its own clear space: scale it up so the visible badge matches the others. */
+.store-badge-google-play {
+  height: 72px;
+  margin: -12px 0;
+}
+
+.store-platforms {
+  font-size: 0.9rem;
+  color: rgba(235, 246, 255, 0.72);
+}
+
+.store-beta {
+  font-size: 0.9rem;
+  color: rgba(146, 235, 255, 0.95);
+}
+
+.packages-grid {
+  width: 100%;
+  max-width: 960px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.package-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.package-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.package-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.package-card .download-badge {
+  align-self: flex-start;
+}
+
+.package-command {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  user-select: all;
+}
+
 .media-section {
   flex: 1;
   display: flex;

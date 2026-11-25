@@ -88,6 +88,66 @@ const downloadsData = [
   },
 ];
 
+// Official store badges, kept unaltered in public/badges/. href null = listing not live yet.
+const storesData = [
+  {
+    id: 'microsoft-store',
+    name: 'Microsoft Store',
+    badge: 'microsoft-store.svg',
+    platforms: 'Windows 10 and 11',
+    href: 'https://apps.microsoft.com/detail/9ngfgfbssxhf',
+  },
+  {
+    id: 'app-store',
+    name: 'App Store',
+    badge: 'app-store.svg',
+    platforms: 'iPhone, iPad and Mac',
+    href: null,
+    beta: [{ label: 'Join the TestFlight beta', href: 'https://testflight.apple.com/join/gGPwjP9b' }],
+  },
+  {
+    id: 'google-play',
+    name: 'Google Play',
+    badge: 'google-play.png',
+    platforms: 'Android phones and tablets',
+    href: null,
+    // Closed test: Play only lets group members opt in, so the group comes first.
+    beta: [
+      { label: '1. Join the closed beta group', href: 'https://groups.google.com/g/orbit-x-testers' },
+      { label: '2. Become a tester on Google Play', href: 'https://play.google.com/apps/testing/com.stoffaudio.orbitx' },
+    ],
+  },
+];
+
+const CLOUDSMITH = 'https://dl.cloudsmith.io/public/stoffaudio-1ai6/orbit-x';
+
+const packageManagers = [
+  {
+    id: 'apt',
+    name: 'APT',
+    platforms: 'Debian, Ubuntu and derivatives',
+    command: `curl -1sLf '${CLOUDSMITH}/setup.deb.sh' | sudo -E bash\nsudo apt install orbit-x`,
+  },
+  {
+    id: 'dnf',
+    name: 'DNF',
+    platforms: 'Fedora, RHEL and derivatives',
+    command: `curl -1sLf '${CLOUDSMITH}/setup.rpm.sh' | sudo -E bash\nsudo dnf install orbit-x`,
+  },
+  {
+    id: 'winget',
+    name: 'winget',
+    platforms: 'Windows 10 and 11',
+    command: 'winget install 9NGFGFBSSXHF',
+  },
+  {
+    id: 'homebrew',
+    name: 'Homebrew',
+    platforms: 'macOS',
+    command: null,
+  },
+];
+
 const platformIcons = {
   windows: (
     <svg
@@ -713,11 +773,57 @@ function App() {
         <section className="downloads-section">
           <div className="downloads-intro">
             <span className="eyebrow">Downloads</span>
-            <h1>Get Orbit‑X for your desktop</h1>
+            <h1>Get Orbit‑X</h1>
             <p>
-              Choose the build that fits your setup. Each package ships with the latest features and
-              rapid-update channel.
+              Install from your app store or package manager for automatic updates, or download a
+              build directly below.
             </p>
+          </div>
+          <div className="stores-row">
+            {storesData.map((store) => {
+              const badge = (
+                <img
+                  className={`store-badge store-badge-${store.id}`}
+                  src={`${process.env.PUBLIC_URL}/badges/${store.badge}`}
+                  alt={store.href ? `Get Orbit-X from the ${store.name}` : `${store.name} (coming soon)`}
+                />
+              );
+              return (
+                <div key={store.id} className="store-tile">
+                  {store.href ? (
+                    <a href={store.href} target="_blank" rel="noreferrer">
+                      {badge}
+                    </a>
+                  ) : (
+                    badge
+                  )}
+                  <span className="store-platforms">{store.platforms}</span>
+                  {!store.href && <span className="download-badge">Coming soon</span>}
+                  {store.beta?.map((link) => (
+                    <a key={link.href} className="store-beta" href={link.href} target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+          <div className="packages-grid">
+            {packageManagers.map((pm) => (
+              <div key={pm.id} className="package-card">
+                <div className="package-head">
+                  <h2>{pm.name}</h2>
+                  <span className="store-platforms">{pm.platforms}</span>
+                </div>
+                {pm.command ? (
+                  <pre className="package-command">
+                    <code>{pm.command}</code>
+                  </pre>
+                ) : (
+                  <span className="download-badge">Coming soon</span>
+                )}
+              </div>
+            ))}
           </div>
           <div className="downloads-grid">
             {downloadsData.map((download) => (
